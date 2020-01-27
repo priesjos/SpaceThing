@@ -39,6 +39,23 @@ public class Board extends JPanel implements ActionListener {
 
     public void checkCollisions(){
 
+        for(int i = bullets.size()-1; i >= 0; i--){
+            for(int j = 0; j < enemies.length; j++){
+                for (int k = 0; k < enemies[0].length; k++){
+                    if (enemies[j][k] != null) {
+                        if (bullets.get(i).getBounds().intersects(enemies[j][k].getBounds())) {
+                            bullets.get(i).setRemove(true);
+                            enemies[j][k] = null;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (bullets.get(i).getRemove()){
+                bullets.remove(bullets.get(i));
+            }
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -46,7 +63,8 @@ public class Board extends JPanel implements ActionListener {
         player.paint(g);
         for (int row = 0; row < 5; row++){
             for (int col = 0; col < 10; col++){
-                enemies[row][col].paint(g);
+                if (enemies[row][col] != null)
+                    enemies[row][col].paint(g);
             }
         }
         for (Bullet bullet: bullets){
@@ -57,6 +75,7 @@ public class Board extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         long currentTime = System.currentTimeMillis();
+        checkCollisions();
 
         if (game.isSpacePressed() && currentTime - bulletDelay >= 250) {
             bullets.add(new Bullet(player));
@@ -82,7 +101,8 @@ public class Board extends JPanel implements ActionListener {
         if (currentTime - timeDelay >= 1000) {
             for (int row = 0; row < 5; row++) {
                 for (int col = 0; col < 10; col++) {
-                    enemies[row][col].move();
+                    if (enemies[row][col] != null)
+                        enemies[row][col].move();
                 }
             }
             timeDelay = System.currentTimeMillis();
