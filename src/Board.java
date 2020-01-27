@@ -32,7 +32,7 @@ public class Board extends JPanel implements ActionListener {
                 enemies[row][col] = new Enemy(getWidth()/4 + col*50, row*50);
             }
         }
-        
+
         timeDelay = System.currentTimeMillis();
         bulletDelay = System.currentTimeMillis();
     }
