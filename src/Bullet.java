@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class Bullet {
 
-    int x, y, diameter = 10;
+    int x, y, diameter = 15;
     int dy = 10;
     boolean remove;
 
